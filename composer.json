@@ -1,0 +1,23 @@
+{
+    "name": "rapidapi/football-api",
+    "description": "This package is call all the end-points of football api which is available on Rapid Api",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Rapidapi\\FootballApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Qadeer Sipra"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel" : {
+            "providers" : [
+                "Rapidapi\\FootballApi\\FootballApiServiceProvider"
+            ]
+        }
+    }
+}
