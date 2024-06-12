@@ -28,7 +28,6 @@ class FootballApi
             ])->get($url);
             $statusCode = $response->status();
             if ($response->ok()) {
-
                 $apiResponse = $response->json();
                 $apiResponse['stauts_code'] = $statusCode;
                 $apiResponse['exception'] = false;
@@ -50,9 +49,15 @@ class FootballApi
         return  FootballApi::callApi('fixtures?live=all');
     }
 
+
     /**
-     * fixtureDetails
-     *
+     * fixtures
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * You can pass single id or multiple ids using '-' seperator
+     * @param  mixed $fixtureIds
      * @return void
      */
     public static function fixtures($fixtureIds)
@@ -83,13 +88,126 @@ class FootballApi
      * @param  mixed $season
      * @return void
      */
-    public static function rounds(string $league_id, string $season, ? string $current = "false")
+    public static function rounds(string $leagueId, string $season, ?string $current = "false")
     {
         $queryParams = [
-            'league' => $league_id,
-            'season' => $season,    
+            'league' => $leagueId,
+            'season' => $season,
             'current' => $current,
         ];
         return  FootballApi::callApi('fixtures/rounds?' . http_build_query($queryParams));
+    }
+
+
+    /**
+     * fixturesByDate
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * @param  mixed $date
+     * @return void
+     */
+    public static function fixturesByDate(string $date)
+    {
+        return  FootballApi::callApi('fixtures?date=' . $date);
+    }
+
+    /**
+     * fixturesByTeam
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * @param  int $teamId
+     * @param  int $season
+     * @return void
+     */
+    public static function fixturesByTeam(int $teamId, int $season)
+    {
+        $queryParams = ['team' => $teamId, 'season' => $season];
+        return  FootballApi::callApi('fixtures?' . http_build_query($queryParams));
+    }
+    /**
+     * fixturesByTeam
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * @param  int $teamId
+     * @param  int $season
+     * @return void
+     */
+    public static function fixturesByLeague(int $leagueId, int $season)
+    {
+        $queryParams = ['league' => $leagueId, 'season' => $season];
+        return  FootballApi::callApi('fixtures?' . http_build_query($queryParams));
+    }
+
+    /**
+     * fixturesBetweenTwoDates
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.  
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * @param  mixed $leagueId
+     * @param  mixed $season
+     * @param  mixed $from
+     * @param  mixed $to
+     * @return void
+     */
+    public static function fixturesBetweenTwoDates(int $leagueId, int $season, string $from, string $to)
+    {
+        $queryParams = ['league' => $leagueId, 'season' => $season, 'from' => $from, 'to' => $to];
+        return  FootballApi::callApi('fixtures?' . http_build_query($queryParams));
+    }
+
+    /**
+     * fixturesByRound
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * @param  mixed $leagueId
+     * @param  mixed $season
+     * @param  mixed $round
+     * @return void
+     */
+    public static function fixturesByRound(int $leagueId, int $season, string $round)
+    {
+        $queryParams = ['league' => $leagueId, 'season' => $season, 'round' => $round];
+        return  FootballApi::callApi('fixtures?' . http_build_query($queryParams));
+    }
+
+    /**
+     * fixturesByStatus
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * @param  mixed $leagueId
+     * @param  mixed $season
+     * @param  mixed $round
+     * @return void
+     */
+    public static function fixturesByStatus(int $leagueId, int $season, string $status)
+    {
+        $queryParams = ['league' => $leagueId, 'season' => $season, 'status' => $status];
+        return  FootballApi::callApi('fixtures?' . http_build_query($queryParams));
+    }
+
+    /**
+     * nextXFixtures
+     * Although the data is updated every 15 seconds, depending on the competition there may be a delay between reality and the availability of data in the API.
+     * Update Frequency : This endpoint is updated every 15 seconds.
+     * Recommended Calls : 1 call per minute for the leagues, teams, fixtures who have at least one fixture in progress otherwise 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Fixtures/operation/get-fixtures
+     * @param  mixed $last
+     * @return void
+     */
+    public static function lastXFixtures(int $last)
+    {
+        $queryParams = ['last' => $last];
+        return  FootballApi::callApi('fixtures?' . http_build_query($queryParams));
     }
 }
