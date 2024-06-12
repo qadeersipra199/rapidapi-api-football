@@ -19,5 +19,6 @@
                 "Rapidapi\\FootballApi\\FootballApiServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability" : "dev"
 }
