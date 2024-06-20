@@ -375,4 +375,50 @@ class FootballApi
     {
         return  FootballApi::callApi('teams/countries');
     }
+
+
+    /**
+     * Get the list of available seasons.
+     * All seasons are only 4-digit keys, so for a league whose season is 2018-2019 like the English Premier League (EPL),
+     * the 2018-2019 season in the API will be 2018.
+     * All seasons can be used in other endpoints as filters.
+     * This endpoint does not require any parameters.
+     * Update Frequency : This endpoint is updated each time a new league is added.
+     * Recommended Calls : 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Leagues/operation/get-seasons
+     * @return void
+     */
+    public static function  leaguesSeason()
+    {
+        return  FootballApi::callApi('leagues/seasons');
+    }
+
+    /**
+     * Get the list of available countries for the leagues endpoint.
+     * The name and code fields can be used in other endpoints as filters.
+     * To get the flag of a country you have to call the following url: https://media.api-sports.io/flags/{country_code}.svg
+     * Examples available in Request samples "Use Cases".
+     * All the parameters of this endpoint can be used together.
+     * Update Frequency : This endpoint is updated each time a new league from a country not covered by the API is added.
+     * Recommended Calls : 1 call per day.
+     * Documentation : https://www.api-football.com/documentation-v3#tag/Leagues/operation/get-seasons
+     * @param  mixed $name
+     * @param  mixed $code
+     * @param  mixed $search
+     * @return void
+     */
+    public static function countries(?string $name = null,  ?string $code = null, ?string $search = null)
+    {
+        $queryParams = [];
+        if ($name)
+            $queryParams['name'] = $name;
+
+        if ($code)
+            $queryParams['code'] = $code;
+
+        if ($search)
+            $queryParams['search'] = $search;
+
+        return  FootballApi::callApi('teams?' . http_build_query($queryParams));
+    }
 }
